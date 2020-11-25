@@ -14,6 +14,11 @@ export default {
 	components: {
 		'nav-bar': NavBar,
 		'footer-bar': Footer,
+	},
+	data() {
+		return {
+			
+		}
 	}
 }
 </script>
