@@ -1,6 +1,6 @@
 <template lang='pug'>
 	.footer-wrapper.bg-dark.text-light.text-center
-		.p-3 &copy; solzi.com
+		.p-3 &copy; booldook.com
 </template>
 
 <script>

@@ -1,8 +1,11 @@
 <template lang='pug'>
 	.city-wrapper
-		select.form-control(v-model='selectCity' v-on:change='onCityChg')
-			option(value='' selected) 날씨정보를 보고싶은 도시를 선택하세요.
-			option(v-for='v in GET_CITY' v-bind:key='v.id' v-bind:value='v.id') {{ v.name }}
+		//- b-dropdown#dropdown-1(text="날씨를 확인할 도시를 선택하세요"  variant="primary" right v-model='selectCity')
+		//- 	b-dropdown-item-button(v-for='v in GET_CITY' :key='v.id' :value='v.id' v-on:click='onCityChg') {{ v.name }}
+		div.form-inline.text-center
+			select.form-control.mx-auto(v-model='selectCity' @change='onCityChg')
+				option(value='' selected) 날씨를 확인할 도시를 선택하세요
+				option(v-for='v in GET_CITY' :key='v.id' :value='v.id') {{v.name}}
 </template>
 
 <script>
@@ -17,9 +20,11 @@ export default {
 	},
 	created() {
 		this.$store.dispatch('ACT_CITY');
+		this.$store.dispatch('ACT_POSITION');
 	},
 	methods: {
 		onCityChg(e) {
+			console.log(this.selectCity);
 			this.$store.dispatch('ACT_DAILY', this.selectCity);
 			this.$store.dispatch('ACT_WEEKLY', this.selectCity);
 		}
@@ -28,8 +33,11 @@ export default {
 		...mapGetters(['GET_CITY', 'GET_POSITION', 'GET_DAILY', 'GET_WEEKLY'])
 	},
 	watch: {
-		GET_POSITION(newValue, oldValue) {
-			alert(`lat: ${newValue.lat}, lon: ${newValue.lon}`);
+		GET_POSITION(val) {
+			this.$store.dispatch('ACT_DAILY', {lat: val.lat, lon: val.lon});
+		},
+		GET_WEEKLY(val) {
+			this.$router.push('/daily');
 		}
 	}
 }
