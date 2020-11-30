@@ -18,10 +18,20 @@ const routes = [
 		component: Daily,
 	},
 	{
+		path: '/daily',
+		name: 'daily',
+		component: Daily,
+	},
+	{
+		path: '/weekly/:id',
+		name: 'weekly',
+		component: Weekly,
+	},
+	{
 		path: '/weekly',
 		name: 'weekly',
 		component: Weekly,
-	}
+	},
 	/* {
 		path: '/sample/:id',
 		name: 'sample',
@@ -34,6 +44,10 @@ const router = new VueRouter({
 	mode: 'history',
 	base: process.env.BASE_URL,
 	routes
+})
+
+router.beforeEach((to, from , next) => {
+	to.name != 'home' && !from.name ? next({ path: '/' }) : next()
 })
 
 export default router

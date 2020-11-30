@@ -1,5 +1,5 @@
 <template lang="pug">
-	weather-daily.d-flex.align-items-center.justify-content-center(:res='info')
+	weather-daily(:res='GET_DAILY')
 </template>
 
 <script>
@@ -8,29 +8,19 @@ import { mapGetters } from 'vuex'
 
 export default {
 	name: 'daily',
-	data() {
-		return {
-			selectCity: '',
-			info: null
-		}
-	},
-	created() {
-		this.selectCity = this.$route.params.id;
-		this.$store.dispatch('ACT_DAILY', this.selectCity);
-	},
 	components: {
 		'weather-daily': WeatherDaily,
+	},
+	created() {
+		console.log(this.$store.state.selectCity);
+		if(this.$route.params && this.$route.params.id)
+			this.$store.dispatch('ACT_DAILY', this.$route.params.id);
+		else if(this.$store.state.selectCity)
+			this.$store.dispatch('ACT_DAILY', this.$store.state.selectCity);
 	},
 	computed: {
 		...mapGetters(['GET_DAILY'])
 	},
-	watch: {
-		GET_DAILY: function(val) {
-			console.log("===========");
-			console.log(val);
-			this.info = val;
-		}
-	}
 }
 </script>
 
